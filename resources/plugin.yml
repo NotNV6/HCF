@@ -1,0 +1,16 @@
+name: HCF
+author: abhi
+version: 1.0
+main: me.abhi.hcf.HCF
+commands:
+  factions:
+    aliases: [faction, fac, f, team, t]
+  spawn:
+  pvp:
+  economy:
+    aliases: [eco]
+  balance:
+    aliases: [bal, $, money]
+  logout:
+  sotw:
+  modmode:
