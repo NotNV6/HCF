@@ -22,37 +22,21 @@ public class ClaimManager extends Manager {
     }
 
     public Faction getClaim(Location location) {
-        for (Faction faction : this.managerHandler.getFactionsManager().getFactionList()) {
-            if (faction.getClaim() != null && faction.getClaim().contains(location)) {
-                return faction;
-            }
-        }
-        return null;
+        return this.managerHandler.getFactionsManager().getFactionList().stream().filter(faction -> faction.getClaim() != null && faction.getClaim().contains(location)).findFirst().orElse(null);
     }
 
     public boolean isClaimed(Location location) {
-        for (Faction faction : this.managerHandler.getFactionsManager().getFactionList()) {
-            if (faction.getClaim() != null && faction.getClaim().contains(location)) {
-                return true;
-            }
-        }
-        return false;
+        return this.managerHandler.getFactionsManager().getFactionList().stream(faction -> faction.getClaim() != null && faction.getClaim().contains(location)).findFirst().orElse(null) != null;
     }
 
     public boolean claimableDistance(final Location location, final int distance) {
-        for (Faction faction : managerHandler.getFactionsManager().getFactionList()) {
-            if (faction.getClaim() != null) {
-                for (Block block : faction.getClaim().getBlocks((int) location.getY())) {
-                    if (block.getLocation().distance(location) <= distance) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return managerHandler.getFactionsManager().getFactionList().stream().filter(faction -> { 
+            if(faction.getClaim() != null)
+                return faction.getClaim().getBlocks((int) location.getY()).stream().filter(block -> block.getLocation().distance(location) <= distance).findFirst().orElse(null) != null;
+        });
     }
 
-    public boolean isClaimable(Cuboid cuboid) {
+    public boolean isClaimable(Cuboid cuboid) { // will do more tmr lolll
         for (Faction faction : this.managerHandler.getFactionsManager().getFactionList()) {
             if (faction.getClaim() != null) {
                 for (Block block : faction.getClaim().getBlocks()) {
