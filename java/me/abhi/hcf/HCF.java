@@ -47,22 +47,17 @@ public class HCF extends JavaPlugin {
         saveConfig();
         try {
             File fFile = new File(getDataFolder(), "factions.yml");
-            if (!fFile.exists()) {
+            if (!fFile.exists()) 
                 fFile.createNewFile();
-            }
-            factionsFile = YamlConfiguration.loadConfiguration(fFile);
-        } catch (Exception ex) {
-            Logger.log("Error loading factions.yml. Please report the following error:");
-            ex.printStackTrace();
-        }
-        try {
+            
+            
             File bFile = new File(getDataFolder(), "balances.yml");
-            if (!bFile.exists()) {
+            if (!bFile.exists()) 
                 bFile.createNewFile();
-            }
+            
             balancesFile = YamlConfiguration.loadConfiguration(bFile);
         } catch (Exception ex) {
-            Logger.log("Error loading balances.yml. Please report the following error:");
+            Logger.log("Error loading config. Please report the following error:");
             ex.printStackTrace();
         }
     }
@@ -72,18 +67,21 @@ public class HCF extends JavaPlugin {
     }
 
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new LoginListener(this), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new QuitListener(this), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-        getServer().getPluginManager().registerEvents(new CooldownListener(this), this);
-        getServer().getPluginManager().registerEvents(new DamageListener(this), this);
-        getServer().getPluginManager().registerEvents(new InteractListener(this), this);
-        getServer().getPluginManager().registerEvents(new MoveListener(this), this);
-        getServer().getPluginManager().registerEvents(new ShutdownListener(this), this);
-        getServer().getPluginManager().registerEvents(new RespawnListener(this), this);
-        getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
-        getServer().getPluginManager().registerEvents(new HungerListener(this), this);
+        Arrays.asList(
+            new LoginListener(this),
+            new JoinListener(this),
+            new QuitListener(this),
+            new ChatListener(this),
+            new CooldownListener(this),
+            new DamageListener(this),
+            new InteractListener(this),
+            new MoveListener(this),
+            new ShutdownListener(this),
+            new RespawnListener(this),
+            new ConsumeListener(this),
+            new HungerListener(this)
+        ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+
     }
 
     private void registerCommands() {
@@ -98,21 +96,21 @@ public class HCF extends JavaPlugin {
     }
 
     private void registerPlayers() {
-        for (Player player : getServer().getOnlinePlayers()) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
             managerHandler.getPlayerDataManager().addPlayer(player);
             ScoreHelper.createScore(player);
             managerHandler.getFactionsManager().findFaction(player);
-            new CombatRunnable(this, player).runTaskTimerAsynchronously(this, 0L, 0L);
+            new CombatRunnable(this, player).runTaskTimerASynchronously(this);
             if (player.hasPermission("hcf.admin")) {
                 PlayerData playerData = managerHandler.getPlayerDataManager().getPlayerData(player);
                 playerData.setStaffMode(true);
             }
-        }
+        });
     }
 
     private void registerRunnables() {
-        new ScoreboardRunnable(this).runTaskTimerAsynchronously(this, 0L, 0L);
-        new ClaimRunnable(this).runTaskTimerAsynchronously(this, 0L, 0L);
+        new ScoreboardRunnable(this).runTaskTimerASynchronously(this);
+        new ClaimRunnable(this).runTaskTimerASynchronously(this);
     }
 
     private void saveFactions() {
@@ -120,10 +118,9 @@ public class HCF extends JavaPlugin {
     }
 
     private void savePlayerData() {
-        for (UUID uuid : managerHandler.getPlayerDataManager().getPlayerDataMap().keySet()) {
-            PlayerData playerData = managerHandler.getPlayerDataManager().getPlayerDataMap().get(uuid);
-            playerData.save();
-        }
+        managerHandler.getPlayerDataManager().getPlayerDataMap().keySet().forEach(uuid -> 
+            managerHandler.getPlayerDataManager().getPlayerDataMap().get(uuid).save()
+        );
     }
 
     public void saveFactionsFile() {
