@@ -38,21 +38,11 @@ public class Faction {
     }
 
     public FactionMember getFactionMember(UUID uuid) {
-        for (FactionMember factionMember : members) {
-            if (factionMember.getUuid().equals(uuid)) {
-                return factionMember;
-            }
-        }
-        return null;
+        return members.stream().filter(factionMember -> factionMember.getUuid().equals(uuid)).findFirst().orElse(null);
     }
 
     public boolean isFactionMember(UUID uuid) {
-        for (FactionMember factionMember : members) {
-            if (factionMember.getUuid().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
+        return members.stream().filter(factionMember -> factionMember.getUuid().equals(uuid)).findFirst().orElse(null) != null;
     }
 
     public void addFactionMember(FactionMember factionMember) {
@@ -63,22 +53,12 @@ public class Faction {
         members.remove(factionMember);
     }
 
-    public boolean hasFactionAllyInvite(Faction faction) {
-        for (FactionAllyInvite factionAllyInvite : factionAllyInvitesList) {
-            if (factionAllyInvite.getFaction().equals(faction) && System.currentTimeMillis() - factionAllyInvite.getTimestamp() <= 60000) {
-                return true;
-            }
-        }
-        return false;
+    public FactionAllyInvite getFactionAllyInvite(Faction faction) {
+         return factionAllyInvites.stream().filter(invite -> invite.getFaction().equals(faction) && System.currentTimeMills() - invite.getTimestamp() <= 60000).findFirst().orElse(null);
     }
 
-    public FactionAllyInvite getFactionAllyInvite(Faction faction) {
-        for (FactionAllyInvite factionAllyInvite : factionAllyInvitesList) {
-            if (factionAllyInvite.getFaction().equals(faction) && System.currentTimeMillis() - factionAllyInvite.getTimestamp() <= 60000) {
-                return factionAllyInvite;
-            }
-        }
-        return null;
+    public boolean hasFactionAllyInvite(Faction faction) {
+        return getFactionAllyInvite(faction) != null;
     }
 
     public void addFactionAllyInvite(FactionAllyInvite factionAllyInvite) {
