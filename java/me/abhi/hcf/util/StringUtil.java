@@ -14,14 +14,12 @@ public class StringUtil {
         if (dtr <= 0.1) {
             return ChatColor.RED + String.valueOf(dtr);
         }
-        return ChatColor.GREEN + String.valueOf(faction.getDtr());
+        return ChatColor.GREEN + String.valueOf(dtr);
     }
 
     public static List<String> stringsToList(String... strings) {
-        List<String> list = new ArrayList();
-        for (String string : strings) {
-            list.add(string);
-        }
+        List<String> list = new ArrayList<>();
+        Arrays.stream(strings).forEach(list::add);
         return list;
     }
 }
