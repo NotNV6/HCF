@@ -123,23 +123,18 @@ public class HCF extends JavaPlugin {
         );
     }
 
-    public void saveFactionsFile() {
+    public void saveFactionsFile() { saveFile("factions.yml"); }
+
+    public void saveBalancesFile() {saveFile("balances.yml"); }
+
+    private void saveFile(String fileName) {
         try {
-            File fFile = new File(getDataFolder(), "factions.yml");
-            factionsFile.save(fFile);
+            File bFile = new File(getDataFolder(), fileName);
+            balancesFile.save(bFile);
         } catch (Exception ex) {
-            Logger.log("Error saving factions.yml. Please report the following error:");
+            Logger.log("Error saving " + fileName + ". Please report the following error:");
             ex.printStackTrace();
         }
     }
 
-    public void saveBalancesFile() {
-        try {
-            File bFile = new File(getDataFolder(), "balances.yml");
-            balancesFile.save(bFile);
-        } catch (Exception ex) {
-            Logger.log("Error saving balances.yml. Please report the following error:");
-            ex.printStackTrace();
-        }
-    }
 }
