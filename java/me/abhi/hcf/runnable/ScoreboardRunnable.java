@@ -13,9 +13,9 @@ public class ScoreboardRunnable extends BukkitRunnable {
     }
 
     public void run() {
-        for (Player player : this.plugin.getServer().getOnlinePlayers()) {
-            this.plugin.getManagerHandler().getScoreboardManager().updatePlayer(player);
-            this.plugin.getManagerHandler().getScoreboardManager().updateNames(player);
-        }
+        Arrays.stream(this.plugin.getServer().getOnlinePlayers()).forEach(player -> {
+            plugin.getManagerHandler().getScoreboardManager().updatePlayer(player);
+            plugin.getManagerHandler().getScoreboardManager().updateNames(player);
+        });
     }
 }
