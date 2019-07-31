@@ -61,22 +61,13 @@ public class PlayerData {
         cooldownMap.remove(id);
     }
 
-    public boolean hasInvite(Faction faction) {
-        for (FactionInvite factionInvite : factionInviteList) {
-            if (factionInvite.getFaction() == faction && System.currentTimeMillis() - factionInvite.getTimestamp() <= 60000) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public FactionInvite getFactionInvite(Faction faction) {
-        for (FactionInvite factionInvite : factionInviteList) {
-            if (factionInvite.getFaction() == faction && System.currentTimeMillis() - factionInvite.getTimestamp() <= 60000) {
-                return factionInvite;
-            }
-        }
-        return null;
+        factionInviteList.stream().filter(invite -> invite.getFaction() == faction && System.currentTimeMillis() - invite.getTimestamp() <= 60000).findFirst().orElse(null);
+    }
+    
+   
+    public boolean hasInvite(Faction faction) {
+        getFactionInvite(faction) != null;
     }
 
     public Faction getClaimFac() {
