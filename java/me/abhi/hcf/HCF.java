@@ -109,8 +109,8 @@ public class HCF extends JavaPlugin {
     }
 
     private void registerRunnables() {
-        new ScoreboardRunnable(this).runTaskTimerASynchronously(this);
-        new ClaimRunnable(this).runTaskTimerASynchronously(this);
+        new ScoreboardRunnable(this).runTaskAsynchronously(this);
+        new ClaimRunnable(this).runTaskAsynchronously(this);
     }
 
     private void saveFactions() {
