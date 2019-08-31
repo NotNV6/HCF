@@ -17,20 +17,19 @@ import java.util.*;
 public class PlayerData {
 
     private UUID uuid;
-    private Faction faction;
+    
     private Map<String, Cooldown> cooldownMap;
     private List<FactionInvite> factionInviteList;
-    private Location claimOne;
-    private Location claimTwo;
-    private int balance;
+
+    private Location claimOne, claimTwo, from, to;
     private Faction claimFor;
-    private Location from;
-    private Location to;
-    private long lastCombat;
+    private Faction faction
     private ChatMode chatMode;
+    
     private String claim;
-    private boolean vanished;
-    private boolean staffMode;
+    private int balance;
+    private long lastCombat;
+    private boolean vanished, staffMode;
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
